@@ -270,7 +270,17 @@ class RemoveFromGroupView(View):
         messages.success(request, f"{person.name} has been removed from {group.name}.")
         return redirect('contacts:contact', id=request.POST.get('person_id'))
 
-#
-# class SearchGroupView(View):
-#     def get(self, request):
-#         return render(request, '', {'groups': Group.objects.all()})
+
+class SearchGroupView(View):
+    def post(self, request, id):
+        group = get_object_or_404(Group, pk=id)
+        contacts = group.person.all()
+        name = request.POST.get('search')
+        names = contacts.filter(name__icontains=name)
+        surnames = contacts.filter(surname__icontains=name)
+        results = names.union(surnames)
+        if results.count() != 0:
+            messages.success(request, f"{results.count()} contacts found!")
+        else:
+            messages.warning(request, f"No contacts found this time.")
+        return render(request, 'contacts/search.html', {'contacts': results, 'group': group})

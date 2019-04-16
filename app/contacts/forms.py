@@ -1,5 +1,4 @@
 from django import forms
-from django.forms.utils import ErrorList
 from django.core.validators import FileExtensionValidator, EmailValidator, RegexValidator
 from .models import Person, Email, Address, Group, Phone, PHONE_CHOICES, EMAIL_CHOICES
 

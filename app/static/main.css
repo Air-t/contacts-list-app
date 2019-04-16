@@ -4,12 +4,16 @@ body {
 }
 
 .bg-violet {
-  background-color: rgba(81, 45, 168, 1)
+  background-color: rgba(81, 45, 168, 1);
 }
 
 
 .bg-teal {
-  background-color: rgba(133, 20, 75, 0.7)
+  background-color: rgba(133, 20, 75, 0.7);
+}
+
+.bg-teal2 {
+  background-color: rgba(0, 128, 128, 0.7);
 }
 
 .fixed-top-2 {

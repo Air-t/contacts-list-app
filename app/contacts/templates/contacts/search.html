@@ -3,20 +3,18 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-  <div class="content-section">
-    <div class="media">
-      <div class="container">
-        <div class="media-body">
-          <h2 class="account-heading">Email</h2>
-        </div>
-      </div>
-    </div>
-    <hr>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <input class="btn btn-outline-primary btn-sm" type="submit" name="submit" value="Update">
-    </form>
-  </div>
+{% if contacts %}
+<div class="container">
+<h5>Contacts found</h5>
+  <ul>
+    {% for contact in contacts %}
+      <li>
+        <a href="{% url 'contacts:contact' id=contact.id %}">{{ contact.full_name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+<hr>
+</div>
+{% endif %}
 
 {% endblock content %}

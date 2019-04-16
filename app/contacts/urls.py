@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from contacts.views import ContactList, PersonView, AddPersonAddress, ModifyPersonAddress, AddPersonEmail, \
     ModifyPersonEmail, AddPersonPhone, ModifyPersonPhone, GroupsView, AddGroupView, ModifyGroupView, AddToGroupView, \
-    RemoveFromGroupView, GroupView
+    RemoveFromGroupView, GroupView, SearchGroupView
 
 app_name = 'contacts'
 
@@ -27,5 +27,6 @@ urlpatterns = [
                   path('groups/remove-from-group/', RemoveFromGroupView.as_view(), name='remove-from-group'),
                   path('groups/modify-group/<int:group_id>/', ModifyGroupView.as_view(), name='modify-group'),
                   path('groups/group/<int:id>/', GroupView.as_view(), name='group'),
+                  path('groups/group/<int:id>/search/', SearchGroupView.as_view(), name='search'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

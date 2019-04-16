@@ -17,10 +17,6 @@
       <div class="container d-flex justify-content-start">
         <a class="navbar-brand d-flex justify-content-between" href="{% url 'contacts:contact_list' %}">[CONTACTS]</a>
         <a class="navbar-brand d-flex justify-content-between" href="{% url 'contacts:groups' %}">[GROUPS]</a>
-        <form class="form-inline" action="#">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-danger" type="submit">Search</button>
-        </form>
       </div>
 
     </nav>
@@ -31,6 +27,19 @@
         <a class="navbar-brand d-flex justify-content-start" href="{% url 'contacts:add-address' id=contact.id %}">[new address]</a>
         <a class="navbar-brand d-flex justify-content-start" href="{% url 'contacts:add-phone' id=contact.id %}">[new phone]</a>
         <a class="navbar-brand d-flex justify-content-start" href="{% url 'contacts:add-email' id=contact.id %}">[new email]</a>
+      </div>
+    </nav>
+    {% endif %}
+
+    {% if group %}
+    <nav class="navbar navbar-toggleable-sm bg-faded navbar-dark bg-teal2 fixed-top fixed-top-2">
+      <div class="container d-flex justify-content-start">
+        <form class="form-inline" action="{% url 'contacts:search' id=group.id %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ group.id }}">
+          <input class="form-control mr-sm-2" type="search" placeholder="Find Contact" aria-label="Search", name="search">
+          <button class="btn btn-outline-secondary" type="submit">Filter</button>
+        </form>
       </div>
     </nav>
     {% endif %}
