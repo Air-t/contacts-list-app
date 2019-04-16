@@ -1,0 +1,57 @@
+{% extends "contact_layout.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+  <div class="row">
+    <div class="col-sm">
+      {% if contacts %}
+        <div class="card border-secondary mb-3">
+          <div class="card-header">
+            Contacts
+          </div>
+          <div class="card-body">
+            <table class="table table-sm table-bordered">
+              <thead class="thead-light">
+                <tr>
+                    <th>Manage</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for contact in contacts %}
+                    <tr>
+                      <td>
+                        <form method="post" style="display:inline!important;">{% csrf_token %}
+                          <input type="hidden" name="id" value="{{ contact.id }}">
+                          <button class="btn btn-outline-danger btn-sm" name="action" value="delete" type="submit">X</button>
+                        </form>
+                      </td>
+                      <td><a href="{% url 'contacts:contact' id=contact.id %}">{{contact.name}}</a></td>
+                      <td>{{contact.surname}}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <div class="card border-secondary mb-3">
+        <div class="card-header">
+          Create New Contact
+        </div>
+        <div class="card-body">
+          <div class="container">
+            <form method="post" class="form-group" enctype="multipart/form-data">{% csrf_token %}
+                {{ form|crispy }}
+              <hr>
+              <button class="btn btn-outline-primary btn-sm" name="action" value="add" type="submit">New Contact</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

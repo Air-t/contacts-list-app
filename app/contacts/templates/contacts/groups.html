@@ -1,0 +1,25 @@
+{% extends "contact_layout.html" %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% if groups %}
+<div class="container">
+<h5>Groups</h5>
+  <ul>
+    {% for g in groups %}
+      <li>
+        <form method="post" style="display:inline!important;">{% csrf_token %}
+          <input type="hidden" name="id" value="{{ g.id }}">
+          <button class="btn btn-link" name="action" value="delete" type="submit">[x]</button>
+        </form>
+        <a href="{% url 'contacts:modify-group' group_id=g.id %}">[edit]</a>
+        <a href="{% url 'contacts:group' id=g.id %}">{{ g.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+<hr>
+</div>
+{% endif %}
+
+{% endblock content %}

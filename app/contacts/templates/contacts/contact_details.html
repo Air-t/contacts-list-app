@@ -1,0 +1,140 @@
+{% extends "contact_layout.html" %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% if contact %}
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card border-secondary mb-3">
+          <div class="card-body">
+            <div class="container">
+              <div class="content-section">
+                <div class="media">
+                  <img class="rounded-circle account-img" src="{{ contact.photo.url }}" alt="user_img">
+                  <div class="container">
+                    <div class="media-body">
+                      <h2 class="account-heading">{{ contact.name }} {{ contact.surname }}</h2>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  <input class="btn btn-outline-primary btn-sm" type="submit" name="submit" value="Update">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+
+        <div class="row">
+          <div class="card border-secondary mb-3">
+            <div class="card-body">
+              <form method="post" action="{% url 'contacts:add-to-group' id=contact.id %}">
+                <input type="hidden" name="id" value="{{ contact.id }}">
+                {% csrf_token %}
+                {{ group_form|crispy }}
+                <input class="btn btn-outline-primary btn-sm" type="submit" name="action" value="Create and Join">
+              </form>
+              <hr>
+              <form method="post" action="{% url 'contacts:add-to-group' id=contact.id %}">
+                <input type="hidden" name="id" value="{{ contact.id }}">
+                {% csrf_token %}
+                {{ join_group_form|crispy }}
+                <input class="btn btn-outline-primary btn-sm" type="submit" name="action" value="Join">
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          {% if person_groups %}
+          <div class="container">
+          <h5>Groups joined</h5>
+            <ul>
+              {% for g in person_groups %}
+                <li>
+                  <form method="post" style="display:inline!important;" action="{% url 'contacts:remove-from-group' %}">{% csrf_token %}
+                    <input type="hidden" name="id" value="{{ g.id }}">
+                    <input type="hidden" name="person_id" value="{{ contact.id }}">
+                    <button class="btn btn-link" name="action" value="delete" type="submit">[x]</button>
+                  </form>
+                  <a href="#">{{ g.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          <hr>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          {% if phones %}
+          <div class="container">
+          <h5>Phones</h5>
+            <ul>
+              {% for p in phones %}
+                <li>
+                  <form method="post" style="display:inline!important;">{% csrf_token %}
+                    <input type="hidden" name="id" value="{{ p.id }}">
+                    <button class="btn btn-link" name="action" value="delete_phone" type="submit">[x]</button>
+                  </form>
+                  <a href="{% url 'contacts:modify-phone' id=contact.id phone_id=p.id %}">[edit] </a>{{ p.number }} | {{ p.number_type }}
+                </li>
+              {% endfor %}
+            </ul>
+          <hr>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          {% if emails %}
+          <div class="container">
+          <h5>Emails</h5>
+          <ul>
+            {% for e in emails %}
+              <li>
+                <form method="post" style="display:inline!important;">{% csrf_token %}
+                  <input type="hidden" name="id" value="{{ e.id }}">
+                  <button class="btn btn-link" name="action" value="delete_email" type="submit">[x]</button>
+                </form>
+                <a href="{% url 'contacts:modify-email' id=contact.id email_id=e.id %}">[edit] </a>{{ e.email }} | {{ e.email_type }}
+              </li>
+            {% endfor %}
+          </ul>
+          <hr>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          {% if addresses %}
+          <div class="container">
+          <h5>Adressess</h5>
+          <ul>
+            {% for a in addresses %}
+              <li>
+                <form method="post" style="display:inline!important;">{% csrf_token %}
+                  <input type="hidden" name="id" value="{{ a.id }}">
+                  <button class="btn btn-link" name="action" value="delete_address" type="submit">[x]</button>
+                </form>
+                <a href="{% url 'contacts:modify-address' id=contact.id address_id=a.id %}">[edit] </a>{{ a.city }} {{ a.zip_code }}, {{ a.street }} {{ a.home_no }}/{{ a.apartment_no }}
+              </li>
+            {% endfor %}
+          </ul>
+          <hr>
+          </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+
+{% endif %}
+{% endblock content %}
