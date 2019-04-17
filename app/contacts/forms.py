@@ -6,7 +6,7 @@ from .models import Person, Email, Address, Group, Phone, PHONE_CHOICES, EMAIL_C
 class PersonForm(forms.ModelForm):
     name = forms.CharField(label='Name')
     surname = forms.CharField(label='Last Name')
-    description = forms.CharField(required=False, widget=forms.Textarea,
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': '5'}),
                                   label='Contact Description')
     photo = forms.ImageField(required=False, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])],
                              label='Contact Photo',

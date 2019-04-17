@@ -64,7 +64,7 @@
                     <input type="hidden" name="person_id" value="{{ contact.id }}">
                     <button class="btn btn-link" name="action" value="delete" type="submit">[x]</button>
                   </form>
-                  <a href="#">{{ g.name }}</a>
+                  <a href="{% url 'contacts:group' id=g.id %}">{{ g.name }}</a>
                 </li>
               {% endfor %}
             </ul>
