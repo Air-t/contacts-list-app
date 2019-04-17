@@ -1,4 +1,4 @@
-# Room Reservation Django App
+# Contact mng Django App
 
 Is a simple django app which allows for room managment with making a daily reservations for specified room
 
