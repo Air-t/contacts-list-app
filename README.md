@@ -17,7 +17,9 @@ pip install -r requirements.txt
 
 Install and setup postgres server on your computer. All required settings are located in settings.py [postgres](https://www.postgresql.org/docs/11/tutorial-install.html).
 
-After postgres server is installed create required database. While in psql:
+Or any setup any other database suitable for you. Dont forget to make changes in .app/settings.py in Database setup section.
+
+When database is setup please populate it with demo data
 
 ```bash
 CREATE DATABASE contactlist;
@@ -25,7 +27,7 @@ CREATE DATABASE contactlist;
 
 Add some dummy data to se hows it works:
 ```bash
-pg_dump -U postgres -h localhost -W contactlist < db_dump.sql
+python3 manage.py loaddata .fixtures/data.json
 ```
 
 ## Contributing
