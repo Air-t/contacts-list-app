@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.utils import ErrorList
 from django.core.validators import FileExtensionValidator, EmailValidator, RegexValidator
 from .models import Person, Email, Address, Group, Phone, PHONE_CHOICES, EMAIL_CHOICES
 
@@ -70,4 +71,8 @@ class GroupForm(forms.ModelForm):
 
 
 class SelectGroupForm(forms.Form):
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), label="")
+    group = forms.ModelMultipleChoiceField(queryset=Group.objects.all().order_by('name'), required=True)
+
+    def __init__(self, person=None, *args, **kwargs):
+        super(SelectGroupForm, self).__init__(*args, **kwargs)
+        self.fields['group'].queryset = Group.objects.all().exclude(person=person)

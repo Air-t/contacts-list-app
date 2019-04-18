@@ -37,11 +37,10 @@ class ContactList(View):
 class PersonView(View):
     def get(self, request, id):
         person = Person.objects.get(pk=id)
-        form = PersonForm(instance=person)
         return render(request, 'contacts/contact_details.html', {'contact': person,
-                                                                 'form': form,
+                                                                 'form': PersonForm(instance=person),
                                                                  'group_form': GroupForm(),
-                                                                 'join_group_form': SelectGroupForm(),
+                                                                 'join_group_form': SelectGroupForm(person=person),
                                                                  'person_groups': person.group_set.all(),
                                                                  'groups': Group.objects.all(),
                                                                  'addresses': person.address_set.all(),
@@ -253,9 +252,9 @@ class AddToGroupView(View):
         else:
             form = SelectGroupForm(data=request.POST)
             if form.is_valid():
-                group = form.cleaned_data.get('group')
-                person.group_set.add(group)
-                messages.success(request, f"{person.name} has joined {group.name}.")
+                groups = form.cleaned_data.get('group')
+                [person.group_set.add(group) for group in groups]
+                [messages.success(request, f"{person.name} has joined {group.name}.") for group in groups]
                 return redirect('contacts:contact', id=id)
             else:
                 messages.warning(request, 'An error has occurred.')
