@@ -1,4 +1,4 @@
-# Room Reservation Django App
+# Contact mng Django App
 
 Is a simple django app which allows for room managment with making a daily reservations for specified room
 
@@ -19,13 +19,13 @@ Install and setup postgres server on your computer. All required settings are lo
 
 Or any setup any other database suitable for you. Dont forget to make changes in .app/settings.py in Database setup section.
 
-When database is setup please populate it with demo data
-
+Create model structure in database:
 ```bash
-CREATE DATABASE contactlist;
+python3 manage.py makemigrations
+python3 manage.py migrate
 ```
 
-Add some dummy data to se hows it works:
+When database is set up please populate it with demo data:
 ```bash
 python3 manage.py loaddata .fixtures/data.json
 ```
