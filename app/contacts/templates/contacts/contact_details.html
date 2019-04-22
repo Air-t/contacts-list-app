@@ -1,55 +1,56 @@
 {% extends "contact_layout.html" %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% if contact %}
 
     <div class="row">
-      <div class="col-md-8">
-        <div class="card border-secondary mb-3">
-          <div class="card-body">
-            <div class="container">
-              <div class="content-section">
-                <div class="media">
-                  <img class="rounded-circle account-img" src="{{ contact.photo.url }}" alt="user_img">
-                  <div class="container">
-                    <div class="media-body">
-                      <h2 class="account-heading">{{ contact.name }} {{ contact.surname }}</h2>
-                    </div>
+      <div class="col-lg-7">
+
+        <div class="list-group">
+          <li class="list-group-item">
+          <div class="container">
+            <div class="content-section">
+              <div class="media">
+                <img class="rounded-circle account-img" src="{{ contact.photo.url }}" alt="user_img">
+                <div class="container">
+                  <div class="media-body">
+                    <h2 class="account-heading">{{ contact.name }} {{ contact.surname }}</h2>
                   </div>
                 </div>
-                <hr>
-                <form method="post" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  {{ form|crispy }}
-                  <input class="btn btn-outline-primary btn-sm" type="submit" name="submit" value="Update">
-                </form>
               </div>
+              <hr>
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-outline-primary btn-sm" type="submit" name="submit" value="Update">
+              </form>
             </div>
           </div>
+          </li>
         </div>
+
       </div>
 
-      <div class="col-md-4">
-
-        <div class="row">
-          <div class="card border-secondary mb-3">
-            <div class="card-body">
-              <form method="post" action="{% url 'contacts:add-to-group' id=contact.id %}">
-                <input type="hidden" name="id" value="{{ contact.id }}">
-                {% csrf_token %}
-                {{ group_form|crispy }}
-                <input class="btn btn-outline-primary btn-sm" type="submit" name="action" value="Create and Join">
-              </form>
-              <hr>
-              <form method="post" action="{% url 'contacts:add-to-group' id=contact.id %}">
-                <input type="hidden" name="id" value="{{ contact.id }}">
-                {% csrf_token %}
-                {{ join_group_form|crispy }}
-                <input class="btn btn-outline-primary btn-sm" type="submit" name="action" value="Join">
-              </form>
-            </div>
+      <div class="col-lg-5">
+          <div class="content-section">
+            <form method="post">
+              {% csrf_token %}
+              {{ group_form|crispy }}
+              <input class="btn btn-primary" type="submit" name="submit" value="Create">
+            </form>
           </div>
-        </div>
+          <br>
+
+          <div class="content-section">
+            <form method="post" action="{% url 'contacts:add-to-group' id=contact.id %}">
+              <input type="hidden" name="id" value="{{ contact.id }}">
+              {% csrf_token %}
+              {{ join_group_form|crispy }}
+              <input class="btn btn-primary" type="submit" name="action" value="Join">
+            </form>
+          </div>
+          <hr>
 
         <div class="row">
           {% if person_groups %}

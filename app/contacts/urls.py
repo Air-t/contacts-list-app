@@ -1,16 +1,16 @@
 from django.urls import path
-from django.conf import settings
 
-from django.conf.urls.static import static
-from contacts.views import ContactList, PersonView, AddPersonAddress, ModifyPersonAddress, AddPersonEmail, \
+from .views import ContactList, PersonView, AddPersonAddress, ModifyPersonAddress, AddPersonEmail, \
     ModifyPersonEmail, AddPersonPhone, ModifyPersonPhone, GroupsView, AddGroupView, ModifyGroupView, AddToGroupView, \
-    RemoveFromGroupView, GroupView, SearchGroupView
+    RemoveFromGroupView, GroupView, SearchGroupView, DeleteContactView
+
 
 app_name = 'contacts'
 
 urlpatterns = [
                   path('', ContactList.as_view(), name='contact_list'),
                   path('contact/<int:id>/', PersonView.as_view(), name='contact'),
+                  path('contact/remove/<int:id>/', DeleteContactView.as_view(), name='delete-contact'),
                   path('contact/<int:id>/new-address/', AddPersonAddress.as_view(), name='add-address'),
                   path('contact/<int:id>/modify-address/<int:address_id>/', ModifyPersonAddress.as_view(),
                        name='modify-address'),
@@ -29,4 +29,4 @@ urlpatterns = [
                   path('groups/group/<int:id>/', GroupView.as_view(), name='group'),
                   path('groups/group/<int:id>/search/', SearchGroupView.as_view(), name='search'),
 
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ]

@@ -38,7 +38,7 @@ class Person(models.Model):
 
     @property
     def full_name(self):
-        return f"{self.name} {self.surname}"
+        return f"{self.surname} {self.name}"
 
 
 class Address(models.Model):

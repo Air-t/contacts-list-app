@@ -18,11 +18,6 @@ class ContactList(View):
         return render(request, 'contacts/contact_list.html', {'form': form, 'contacts': contacts})
 
     def post(self, request):
-        if request.POST.get('action') == 'delete':
-            person = Person.objects.get(pk=int(request.POST.get('id')))
-            person.delete()
-            messages.success(request, 'Contact deleted.')
-            return redirect('contacts:contact_list')
 
         form = PersonForm(request.POST)
         if form.is_valid():
@@ -32,6 +27,14 @@ class ContactList(View):
         else:
             messages.error(request, 'While adding new contact an error has occurred.')
             return redirect('contacts:contact_list')
+
+
+class DeleteContactView(View):
+    def post(self, request, id):
+        person = get_object_or_404(Person, pk=id)
+        person.delete()
+        messages.success(request, 'Contact deleted.')
+        return redirect('contacts:contact_list')
 
 
 class PersonView(View):
@@ -237,11 +240,12 @@ class ModifyGroupView(View):
         messages.warning(request, 'An error has occurred.')
         render(request, 'contacts/group.html', {'form': form})
 
+
 class AddToGroupView(View):
     def post(self, request, id):
         action = request.POST.get("action")
         person = Person.objects.get(pk=id)
-        if action == "Create and Join":
+        if action == "Create":
             form = GroupForm(data=request.POST)
             if form.is_valid():
                 group = form.save(commit=False)

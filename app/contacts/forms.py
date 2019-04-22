@@ -63,7 +63,7 @@ class AddressForm(forms.ModelForm):
 
 
 class GroupForm(forms.ModelForm):
-    name = forms.CharField(label='Group Name', required=True)
+    name = forms.CharField(label='', required=True)
 
     class Meta:
         model = Group
@@ -71,8 +71,8 @@ class GroupForm(forms.ModelForm):
 
 
 class SelectGroupForm(forms.Form):
-    group = forms.ModelMultipleChoiceField(queryset=Group.objects.all().order_by('name'), required=True)
+    group = forms.ModelMultipleChoiceField(queryset=Group.objects.all(), required=True, label="")
 
     def __init__(self, person=None, *args, **kwargs):
         super(SelectGroupForm, self).__init__(*args, **kwargs)
-        self.fields['group'].queryset = Group.objects.all().exclude(person=person)
+        self.fields['group'].queryset = Group.objects.all().exclude(person=person).order_by('name')
