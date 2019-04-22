@@ -34,10 +34,10 @@
 
       <div class="col-lg-5">
           <div class="content-section">
-            <form method="post">
+            <form method="post" action="{% url 'contacts:add-to-group' id=contact.id %}">
               {% csrf_token %}
               {{ group_form|crispy }}
-              <input class="btn btn-primary" type="submit" name="submit" value="Create">
+              <input class="btn btn-primary" type="submit" name="action" value="Create">
             </form>
           </div>
           <br>

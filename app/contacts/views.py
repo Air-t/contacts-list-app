@@ -254,7 +254,7 @@ class AddToGroupView(View):
                 messages.success(request, f"Group {group.name} was created.")
                 return redirect('contacts:contact', id=id)
         else:
-            form = SelectGroupForm(data=request.POST)
+            form = SelectGroupForm(data=request.POST, person=person)
             if form.is_valid():
                 groups = form.cleaned_data.get('group')
                 [person.group_set.add(group) for group in groups]

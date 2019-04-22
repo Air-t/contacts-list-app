@@ -71,8 +71,8 @@ class GroupForm(forms.ModelForm):
 
 
 class SelectGroupForm(forms.Form):
-    group = forms.ModelMultipleChoiceField(queryset=Group.objects.all(), required=True, label="")
+    group = forms.ModelMultipleChoiceField(queryset=None, required=True, label="")
 
-    def __init__(self, person=None, *args, **kwargs):
+    def __init__(self, person, *args, **kwargs):
         super(SelectGroupForm, self).__init__(*args, **kwargs)
         self.fields['group'].queryset = Group.objects.all().exclude(person=person).order_by('name')
