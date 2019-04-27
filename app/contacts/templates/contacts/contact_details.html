@@ -84,7 +84,7 @@
                     <input type="hidden" name="id" value="{{ p.id }}">
                     <button class="btn btn-link" name="action" value="delete_phone" type="submit">[x]</button>
                   </form>
-                  <a href="{% url 'contacts:modify-phone' id=contact.id phone_id=p.id %}">[edit] </a>{{ p.number }} | {{ p.number_type }}
+                  <a href="{% url 'contacts:modify-phone' id=contact.id phone_id=p.id %}">[edit] </a>{{ p.number }} | {{ p.get_number_type_display }}
                 </li>
               {% endfor %}
             </ul>
@@ -104,7 +104,7 @@
                   <input type="hidden" name="id" value="{{ e.id }}">
                   <button class="btn btn-link" name="action" value="delete_email" type="submit">[x]</button>
                 </form>
-                <a href="{% url 'contacts:modify-email' id=contact.id email_id=e.id %}">[edit] </a>{{ e.email }} | {{ e.email_type }}
+                <a href="{% url 'contacts:modify-email' id=contact.id email_id=e.id %}">[edit] </a>{{ e.email }} | {{ e.get_email_type_display }}
               </li>
             {% endfor %}
           </ul>
